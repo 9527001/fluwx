@@ -239,12 +239,16 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             BOOL isPNG = [self isPNG:suffix];
             BOOL compress = call.arguments[fluwxKeyCompressThumbnail];
 
-            UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG compress:compress];
-            if (isPNG) {
-                hdImageData = UIImagePNGRepresentation(uiImage);
-            } else {
-                hdImageData = UIImageJPEGRepresentation(uiImage, 1);
-            }
+           if(imageData.length > 120*1024){
+                  UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG compress:compress];
+                  if (isPNG) {
+                      hdImageData = UIImagePNGRepresentation(uiImage);
+                  } else {
+                      hdImageData = UIImageJPEGRepresentation(uiImage, 1);
+                  }
+           }else{
+              hdImageData = imageData;
+           }
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
